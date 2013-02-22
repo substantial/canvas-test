@@ -15,6 +15,7 @@ function init() {
   text.x = 0;
   text.y = 0;
   stage.addChild(text);
+  stage.addEventListener("stagemousemove", createSlider);
 
   createjs.Ticker.addEventListener("tick", updateFPS);
 
@@ -73,6 +74,40 @@ function moveTree(e) {
 
   container.x = x - startPosition.x;
   container.y = y - startPosition.y;
+
+}
+
+var slider, slider2, slider3, sliderWidth = 0, sliderWidth2 = 0, sliderWidth3 = 0;
+function createSlider() {
+  slider = new createjs.Shape();
+  container.addChild(slider);
+
+  slider2 = new createjs.Shape();
+  container.addChild(slider2);
+
+  slider3 = new createjs.Shape();
+  container.addChild(slider3);
+
+  createjs.Ticker.addEventListener("tick", showSlider);
+}
+
+function showSlider() {
+  if (sliderWidth < 200) {
+    slider.graphics.clear().beginFill("#ff0000").rect(0, 50, sliderWidth, 50);
+    sliderWidth++;
+  }
+
+  if (sliderWidth2 < 500) {
+    slider2.graphics.clear().beginFill("#00ff00").rect(0, 150, sliderWidth2, 50);
+    sliderWidth2 += 1;
+  }
+
+  if (sliderWidth3 < 800) {
+    slider3.graphics.clear().beginFill("#0000ff").rect(0, 200, sliderWidth3, 50);
+    sliderWidth3 += 1;
+  }
+
+  stage.update();
 }
 
 function updateCircle() {
