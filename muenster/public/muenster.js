@@ -11,7 +11,7 @@ function init() {
 
   container = new createjs.Container();
 
-  text = new createjs.Text("FPS: " + createjs.Ticker.getMeasuredFPS(), "20px Arial", "#000");
+  text = new createjs.Text("FPS: --", "20px Arial", "#000");
   text.x = 0;
   text.y = 0;
   stage.addChild(text);
@@ -35,7 +35,7 @@ function init() {
 }
 
 function updateFPS() {
-  text.text = "FPS: " + createjs.Ticker.getMeasuredFPS();
+  text.text = "FPS: " + Math.round(createjs.Ticker.getMeasuredFPS());
 }
 
 var topCircle;
