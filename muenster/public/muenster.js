@@ -1,7 +1,7 @@
-var stage, text, container;
+var stage, text, container, canvas;
 
 function init() {
-  var canvas = document.getElementById("canvas");
+  canvas = document.getElementById("canvas");
   canvas.style.background = "#cccccc";
 
   stage = new createjs.Stage("canvas");
@@ -15,7 +15,7 @@ function init() {
   text.x = 0;
   text.y = 0;
   stage.addChild(text);
-  stage.addEventListener("stagemousemove", createSlider);
+  //stage.addEventListener("stagemousemove", createSlider);
 
   createjs.Ticker.addEventListener("tick", updateFPS);
 
@@ -31,12 +31,42 @@ function init() {
 
   right.addEventListener("click", addTop);
 
+  var button = new createjs.Shape();
+  button.graphics.beginFill("#eee").rect(850, 550, 50, 20);
+  button.addEventListener("click", screenWipe);
+  stage.addChild(button);
+
   stage.addChild(container);
+  stage.update();
+}
+
+var wipe, wipeWidth = 0;
+function screenWipe() {
+  //wipe = new createjs.Shape();
+  //container.addChild(wipe);
+  //createjs.Ticker.addEventListener("tick", wipeIt);
+
+  if (container.alpha == 0) {
+    createjs.Tween.get(container, {useTicks: true}).to({alpha:1}, 60);
+  } else {
+    createjs.Tween.get(container, {useTicks: true}).to({alpha:0}, 60);
+  }
+}
+
+function wipeIt() {
+  if (wipeWidth < canvas.width) {
+    wipeWidth += 10;
+    wipe.graphics.beginFill("#cccccc").rect(0, 0, wipeWidth, canvas.height);
+  } else {
+    stage.removeAllChildren();
+  }
+
   stage.update();
 }
 
 function updateFPS() {
   text.text = "FPS: " + Math.round(createjs.Ticker.getMeasuredFPS());
+  stage.update();
 }
 
 var topCircle;
