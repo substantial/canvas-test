@@ -31,21 +31,21 @@ function init() {
 
   right.addEventListener("click", addTop);
 
-  var button = new createjs.Shape();
-  button.graphics.beginFill("#eee").rect(850, 550, 50, 20);
-  button.addEventListener("click", screenWipe);
-  stage.addChild(button);
+  var buttonFade = new createjs.Shape();
+  buttonFade.graphics.beginFill("blue").rect(850, 500, 50, 20);
+  buttonFade.addEventListener("click", fade);
+  stage.addChild(buttonFade);
+
+  var buttonWipe = new createjs.Shape();
+  buttonWipe.graphics.beginFill("#eee").rect(850, 550, 50, 20);
+  buttonWipe.addEventListener("click", screenWipe);
+  stage.addChild(buttonWipe);
 
   stage.addChild(container);
   stage.update();
 }
 
-var wipe, wipeWidth = 0;
-function screenWipe() {
-  //wipe = new createjs.Shape();
-  //container.addChild(wipe);
-  //createjs.Ticker.addEventListener("tick", wipeIt);
-
+function fade() {
   if (container.alpha == 0) {
     createjs.Tween.get(container, {useTicks: true}).to({alpha:1}, 60);
   } else {
@@ -53,10 +53,17 @@ function screenWipe() {
   }
 }
 
+var wipe, wipeWidth = 0;
+function screenWipe() {
+  wipe = new createjs.Shape();
+  container.addChild(wipe);
+  createjs.Ticker.addEventListener("tick", wipeIt);
+}
+
 function wipeIt() {
   if (wipeWidth < canvas.width) {
     wipeWidth += 10;
-    wipe.graphics.beginFill("#cccccc").rect(0, 0, wipeWidth, canvas.height);
+    wipe.graphics.beginFill("red").rect(0, 0, wipeWidth, canvas.height);
   } else {
     stage.removeAllChildren();
   }
