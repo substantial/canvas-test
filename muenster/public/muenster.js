@@ -43,6 +43,19 @@ function init() {
 
   stage.addChild(container);
   stage.update();
+
+  createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.FlashPlugin]);
+  createjs.Sound.addEventListener("loadComplete", createjs.proxy(loadHandler, (this)));
+  createjs.Sound.registerSound("background_music.mp3", "backgroundMusic");
+
+  function loadHandler(event) {
+    // This is fired for each sound that is registered.
+    var backgroundMusic = createjs.Sound.play("backgroundMusic");
+    backgroundMusic.onPlayFailed = function () { console.log("Play Failed"); }
+    console.log(backgroundMusic);
+    backgroundMusic.setVolume(0.5);
+    backgroundMusic.play();
+  }
 }
 
 function fade() {
